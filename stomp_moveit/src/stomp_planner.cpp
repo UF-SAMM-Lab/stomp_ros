@@ -751,9 +751,10 @@ bool StompPlanner::getConfigData(ros::NodeHandle &nh, std::map<std::string, XmlR
 {
   // Create a stomp planner for each group
   XmlRpc::XmlRpcValue stomp_config;
+  ROS_INFO_STREAM(nh.getNamespace());
   if(!nh.getParam(param, stomp_config))
   {
-    ROS_ERROR("The 'stomp' configuration parameter was not found");
+    ROS_ERROR("The '%s' configuration parameter was not found", param.c_str());
     return false;
   }
 

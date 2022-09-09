@@ -56,6 +56,7 @@ bool StompPlannerManager::initialize(const robot_model::RobotModelConstPtr &mode
 
   if (!StompPlanner::getConfigData(nh_, group_config))
   {
+    ROS_ERROR("incorrect format of stomp_planning.yaml");
     return false;
   }
 

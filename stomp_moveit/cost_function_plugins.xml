@@ -9,4 +9,9 @@
       Uses the shortests distance to obstacles in order to calculate state costs.
     </description>
   </class>
+  <class name="stomp_moveit/PredictedObstacleDistanceGradient" type="stomp_moveit::cost_functions::PredictedObstacleDistanceGradient" base_class_type="stomp_moveit::cost_functions::StompCostFunction">
+    <description>
+      Uses the shortests distance to obstacles in order to calculate state costs.
+    </description>
+  </class>
 </library>

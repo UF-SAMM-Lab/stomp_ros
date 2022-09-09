@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(stomp REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
+find_package(fcl REQUIRED)
 
 add_definitions("-std=c++11")
 
@@ -44,6 +45,7 @@ catkin_package(
     Boost
     EIGEN3
     stomp
+    FCL
 )
 
 ###########
@@ -53,6 +55,7 @@ catkin_package(
 ## Specify additional locations of header files
 include_directories(include
     ${catkin_INCLUDE_DIRS}
+    ${FCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -82,6 +85,7 @@ target_link_libraries(${PROJECT_NAME}_smoothing_adapter ${PROJECT_NAME} stomp::s
 add_library(${PROJECT_NAME}_cost_functions
   src/cost_functions/collision_check.cpp
   src/cost_functions/obstacle_distance_gradient.cpp
+  src/cost_functions/predicted_obstacle_distance_gradient.cpp
  )
 target_link_libraries(${PROJECT_NAME}_cost_functions stomp::stomp ${catkin_LIBRARIES})
 
