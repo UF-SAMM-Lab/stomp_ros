@@ -80,7 +80,6 @@ bool PredictedObstacleDistanceGradient::initialize(moveit::core::RobotModelConst
       std::cout<<"here3\n";
       max_separation = static_cast<double>(v->second["task"]["cost_functions"][0]["max_separation"]);
       min_separation = static_cast<double>(v->second["task"]["cost_functions"][0]["min_separation"]);
-      std::vector<std::string> dist_links;
       std::cout<<"here4\n";
       for (int i=0; i<v->second["task"]["cost_functions"][0]["distance_links"].size();i++) {
         dist_links.push_back(v->second["task"]["cost_functions"][0]["distance_links"][i]);
@@ -99,8 +98,10 @@ bool PredictedObstacleDistanceGradient::initialize(moveit::core::RobotModelConst
   } 
 
   std::vector<const robot_state::LinkModel*> links = robot_model_ptr->getLinkModels();
+  ROS_INFO_STREAM(links.size()<<"links");
   for (int i=0;i<int(links.size());i++) {
       std::string link_name = links[i]->getName();
+      ROS_INFO_STREAM(link_name);
       if (std::find(dist_links.begin(),dist_links.end(),link_name)!=dist_links.end()) {
           ROS_INFO_STREAM("link name "<<link_name);
           // if (link_name.substr(link_name.length()-4) == "link") {
@@ -389,6 +390,7 @@ double PredictedObstacleDistanceGradient::checkIntermediatePredictedCollisions(c
       
       std::tie(human_time, human_cylinders, human_poses) = human_seq.at(human_idx);
       ROS_INFO_STREAM(human_cylinders.size());
+      ROS_INFO_STREAM(link_boxes.size());
       for (int j=0;j<link_boxes.size();j++) {
         Eigen::Isometry3f offset_transform;
         offset_transform.setIdentity();
