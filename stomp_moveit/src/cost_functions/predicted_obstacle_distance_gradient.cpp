@@ -283,7 +283,7 @@ bool PredictedObstacleDistanceGradient::computeCosts(const Eigen::MatrixXd& para
     // check intermediate poses to the next position (skip the last one)
     if(t  < start_timestep + num_timesteps - 1)
     {
-      ROS_INFO_STREAM(parameters.col(t).transpose());
+      // ROS_INFO_STREAM(parameters.col(t).transpose());
       if(!checkIntermediateCollisions(parameters.col(t),parameters.col(t+1),longest_valid_joint_move_)) // is collision
       {
         costs(t) = 1.0;
@@ -385,12 +385,12 @@ double PredictedObstacleDistanceGradient::checkIntermediatePredictedCollisions(c
   {    
     double robot_time = start_time;
     int human_idx = int(robot_time/human_dt);
-    ROS_INFO_STREAM(human_idx);
+    // ROS_INFO_STREAM(human_idx);
     if (human_idx<human_seq.size()) {
       
       std::tie(human_time, human_cylinders, human_poses) = human_seq.at(human_idx);
-      ROS_INFO_STREAM(human_cylinders.size());
-      ROS_INFO_STREAM(link_boxes.size());
+      // ROS_INFO_STREAM(human_cylinders.size());
+      // ROS_INFO_STREAM(link_boxes.size());
       for (int j=0;j<link_boxes.size();j++) {
         Eigen::Isometry3f offset_transform;
         offset_transform.setIdentity();
@@ -398,12 +398,13 @@ double PredictedObstacleDistanceGradient::checkIntermediatePredictedCollisions(c
         fcl::Transform3f link_transform = fcl::Transform3f(start_state->getGlobalLinkTransform(robot_links[j]).cast<float>()*offset_transform);
         for (int k=0;k<human_cylinders.size();k++) {
           fcl::distance(&link_boxes[j],link_transform,&human_cylinders[k],human_poses[k],req,res);
-          ROS_INFO_STREAM("min dist"<<res.min_distance);
+          // ROS_INFO_STREAM("min dist"<<res.min_distance);
           if (res.min_distance<max_separation) cost = std::max(cost, 10.0/std::max((res.min_distance-min_separation)/(max_separation-min_separation),1.0E-6));
         }
       }
     }
-    ROS_INFO_STREAM("no int");
+    // ROS_INFO_STREAM(cost);
+    // ROS_INFO_STREAM("no int");
     // no interpolation needed
     return cost;
   }
@@ -426,14 +427,14 @@ double PredictedObstacleDistanceGradient::checkIntermediatePredictedCollisions(c
         fcl::Transform3f link_transform = fcl::Transform3f(mid_state->getGlobalLinkTransform(robot_links[j]).cast<float>()*offset_transform);
         for (int k=0;k<human_cylinders.size();k++) {
           fcl::distance(&link_boxes[j],link_transform,&human_cylinders[k],human_poses[k],req,res);
-          ROS_INFO_STREAM("min dist"<<res.min_distance);
+          // ROS_INFO_STREAM("min dist"<<res.min_distance);
           if (res.min_distance<max_separation) cost = std::max(cost, 10.0/std::max((res.min_distance-min_separation)/(max_separation-min_separation),1.0E-6));
         }
       }
     }
     
   }
-  ROS_INFO_STREAM(cost);
+  // ROS_INFO_STREAM(cost);
   return cost;
 }
 
